@@ -1,29 +1,9 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'screens/get_started_screen.dart';
 
-void main() => runApp(const SafeNetApp());
-
-class SafeNetApp extends StatelessWidget {
-  const SafeNetApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SafeNet',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
-        useMaterial3: true,
-      ),
-      home: const GetStartedScreen(),
-    );
-  }
-}
-
-class SafeNetHome extends StatelessWidget {
-  const SafeNetHome({super.key});
+class GetStartedScreen extends StatelessWidget {
+  const GetStartedScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +20,7 @@ class SafeNetHome extends StatelessWidget {
                 end: Alignment.topCenter,
                 colors: [
                   Color(0xFF0D122B),
-                  Color(0xFF0D122B), // slightly repeated to mimic original
+                  Color(0xFF0D122B),
                   Color(0x001A202C),
                 ],
                 stops: [0.0, 0.6, 1.0],
@@ -51,10 +31,10 @@ class SafeNetHome extends StatelessWidget {
           Positioned.fill(
             child: Stack(
               children: const [
-                Ripple(delay: Duration(seconds: 0)),
-                Ripple(delay: Duration(seconds: 1)),
-                Ripple(delay: Duration(seconds: 2)),
-                Ripple(delay: Duration(seconds: 3)),
+                _Ripple(delay: Duration(seconds: 0)),
+                _Ripple(delay: Duration(seconds: 1)),
+                _Ripple(delay: Duration(seconds: 2)),
+                _Ripple(delay: Duration(seconds: 3)),
               ],
             ),
           ),
@@ -69,14 +49,16 @@ class SafeNetHome extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          color: Colors.red.shade700,
+                          color: const Color(0xFFEF4444),
                           shape: BoxShape.circle,
                         ),
                         padding: const EdgeInsets.all(6),
                         child: const Icon(Icons.emergency, color: Colors.white, size: 22),
                       ),
                       const SizedBox(width: 10),
-                      const Text('SafeNet', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18)),
+                      Text('SafeNet',
+                          style: GoogleFonts.inter(
+                              fontWeight: FontWeight.w700, fontSize: 18, color: Colors.white)),
                     ],
                   ),
                   const Spacer(),
@@ -87,7 +69,7 @@ class SafeNetHome extends StatelessWidget {
                       Text(
                         'Collective\nAwareness\nfor Safer Roads.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: mq.size.width < 360 ? 34 : 40,
                           height: 1.02,
                           fontWeight: FontWeight.w800,
@@ -97,11 +79,11 @@ class SafeNetHome extends StatelessWidget {
                       const SizedBox(height: 18),
                       SizedBox(
                         width: maxWidth * 0.8,
-                        child: const Text(
+                        child: Text(
                           'Join the V2X safety mesh. Receive real-time alerts on driving risks and help create a safer driving environment for everyone.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFFBFC7D6),
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFFBFC7D6),
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
@@ -112,7 +94,9 @@ class SafeNetHome extends StatelessWidget {
                       SizedBox(
                         width: 320,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            // navigate to profile setup later
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFEF4444),
                             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -124,13 +108,14 @@ class SafeNetHome extends StatelessWidget {
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Text(
                                 'Get Started',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
+                                style: GoogleFonts.inter(
+                                    fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
                               ),
-                              SizedBox(width: 10),
-                              Icon(Icons.arrow_forward, size: 20),
+                              const SizedBox(width: 10),
+                              const Icon(Icons.arrow_forward, size: 20),
                             ],
                           ),
                         ),
@@ -138,14 +123,14 @@ class SafeNetHome extends StatelessWidget {
                       const SizedBox(height: 12),
                       TextButton(
                         onPressed: () {},
-                        child: const Text.rich(
+                        child: Text.rich(
                           TextSpan(
                             text: 'Already have an account? ',
-                            style: TextStyle(color: Color(0xFF9AA3B6)),
+                            style: GoogleFonts.inter(color: const Color(0xFF9AA3B6)),
                             children: [
                               TextSpan(
                                 text: 'Sign In',
-                                style: TextStyle(
+                                style: GoogleFonts.inter(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,
@@ -169,17 +154,18 @@ class SafeNetHome extends StatelessWidget {
   }
 }
 
-class Ripple extends StatefulWidget {
+class _Ripple extends StatefulWidget {
   final Duration delay;
-  const Ripple({super.key, required this.delay});
+  const _Ripple({super.key, required this.delay});
 
   @override
-  State<Ripple> createState() => _RippleState();
+  State<_Ripple> createState() => _RippleState();
 }
 
-class _RippleState extends State<Ripple> with SingleTickerProviderStateMixin {
+class _RippleState extends State<_Ripple> with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _anim;
+
   @override
   void initState() {
     super.initState();
